@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-title">
+
+
+        <!-- Search bar -->
+        <app-input-search-bar
+            (searchTopic)="onUserSearchInput($event, this.searchInputSubject$)">
+        </app-input-search-bar>
+
+    </div>
+    <div class="card-body">
+        <!-- News feed results -->
+        <app-search-results [searchResults]="news$ | async"></app-search-results>
+
+        <!-- Trying funky Angular template technique for fun. -->
+        <!-- Transforms param into the PageTrack options for button config -->
+        <div class="d-flex justify-content-between">
+            <app-button class="p-2" 
+                *ngIf="this.activatedRoute.paramMap" 
+                [pageTrack]="(this.setupNavComponentOptions(this.activatedRoute.paramMap, 'Previous') | async)"
+                (buttonClickNavigateToPageNumber)="onUserNavButtonInteraction($event, this.router)"
+            >
+                
+            </app-button>
+
+            <!-- Page {{(this.activatedRoute.paramMap | async).get["pageNumber"]}} -->
+            <div class="p-2">
+                Page {{this.currentPageNumber}}
+            </div>
+
+            <!-- Less agreeable when some logic is in html template code? but pipes. -->
+            <app-button class="p-2" 
+                *ngIf="this.activatedRoute.paramMap" 
+                [pageTrack]="(this.setupNavComponentOptions(this.activatedRoute.paramMap, 'Next') | async)"
+                (buttonClickNavigateToPageNumber)="onUserNavButtonInteraction($event, this.router)"
+            >
+                
+            </app-button>
+        </div>
+    </div>
+
+
+</div>
